@@ -1,6 +1,7 @@
 package com.mccodecraft.Website;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,6 +17,9 @@ public class Parent {
     private Date joinDate;
     private Boolean isDeleted;
     private Date dateDeleted;
+
+    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
 
     public Parent(Integer pId, String pName, String fName, String lName, String pWord, Date joinDate, Boolean isDeleted, Date dateDeleted) {
         this.pID = pId;
@@ -74,7 +78,6 @@ public class Parent {
     }
 
     public String getStrngJoinDate() {
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         return dateFormat.format(joinDate);
     }
     public Date getDateJoinDate() {
@@ -85,9 +88,19 @@ public class Parent {
         this.joinDate = joinDate;
         return this;
     }
+    public Parent setJoinDate(String joinDate) {
+        try {
+            this.joinDate = dateFormat.parse(joinDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return this;
+
+    }
     public Parent setIsDeleted() {
         this.isDeleted = true;
         this.dateDeleted = new Date();
+        return this;
     }
     public Boolean isDeleted() {
         return this.isDeleted;
