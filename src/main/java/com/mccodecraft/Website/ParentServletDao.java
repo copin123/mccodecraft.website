@@ -1,0 +1,32 @@
+package com.mccodecraft.Website;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+/**
+ * Created by james on 2/20/17.
+ */
+public class ParentServletDao<T extends Parent>  implements ParentDbService<T>{
+    ArrayList<T> parentObj;
+    public ParentServletDao() { parentObj = new ArrayList<T>(); }
+
+    @Override
+    public Boolean create(T entity) {
+        parentObj.add(entity);
+        return null;
+    }
+
+    @Override
+    public Boolean update(Integer pId, String pName, String fName, String lName, String pWord, Date joinDate) {
+        T entity = parentObj.get(pId);
+        entity.setpName(pName).setfName(fName).setlName(lName).setpWord(pWord).setJoinDate(joinDate);
+
+        return true;
+    }
+
+    @Override
+    public Boolean delete(Integer pId) {
+        parentObj.get(pId).setIsDeleted();
+        return true;
+    }
+}
