@@ -1,41 +1,58 @@
 /**
  * Created by james on 2/4/17.
  */
-package com.mccodecraft.Website;
+package com.mccodecraft.Website.pages;
 
-import spark.ModelAndView;
+import com.mccodecraft.Website.Dao.ParentPostgresDao;
+import com.mccodecraft.Website.DbObjects.Parent;
 import spark.Request;
 import spark.Response;
-import spark.Route;
 import spark.template.freemarker.FreeMarkerRoute;
 
 import java.util.*;
 
 import static spark.Spark.get;
-import static spark.Spark.post;
 
 public class WebsiteLanding {
 
-    public static ParentDbService<Parent> parentDbService = new ParentServletDao<>();
+    public static ParentPostgresDao<Parent> parentDbService = new ParentPostgresDao<>();
 
     public static void main(String[] args) {
-        get(new FreeMarkerRoute("/") {
+
+
+        get(new FreeMarkerRoute("/parentInfo/display/:id") {
             @Override
-            public ModelAndView handle(Request request, Response response) {
+            public Object handle(Request request, Response response) {
+                Integer id = Integer.parseInt(request.params(":id"));
                 Map<String, Object> viewObjects = new HashMap<>();
-                Parent parent = ParentDbService.read(1);
 
-                if (null == parent) {
-                    viewObjects.put("hasNoParents","Welcome, please click \"Write Parent\" to begin.");
-                } else {
-                    Deque<Parent> showParents = new ArrayDeque<>();
+                viewObjects.put("templateName", "parentInfoform.ftl");
 
-                    viewObjects.put("parentInfo", showParents);
-                }
-                viewObjects.put("templateName", "articleList.ftl");
+                viewObjects.put("article",parentDbService.read(id));
                 return modelAndView(viewObjects, "layout.ftl");
             }
         });
+
+
+
+
+        //      /  get(new FreeMarkerRoute("/") {
+//            @Override
+//            public ModelAndView handle(Request request, Response response) {
+//                Map<String, Object> viewObjects = new HashMap<>();
+//                Parent parent = (Parent) ParentDbService.read(1);
+//
+//                if (null == parent) {
+//                    viewObjects.put("hasNoParents","Welcome, please click \"Write Parent\" to begin.");
+//                } else {
+//                    Deque<Parent> showParents = new ArrayDeque<>();
+//
+//                    viewObjects.put("parentInfo", showParents);
+//                }
+//                viewObjects.put("templateName", "articleList.ftl");
+//                return modelAndView(viewObjects, "layout.ftl");
+//            }
+//        });
 
 //        get(new FreeMarkerRoute("/parentInfo/create") {
 //            @Override
@@ -64,18 +81,6 @@ public class WebsiteLanding {
 //            }
 //        });
 //
-//        get(new FreeMarkerRoute("/parentInfo/display/:id") {
-//            @Override
-//            public Object handle(Request request, Response response) {
-//                Integer id = Integer.parseInt(request.params(":id"));
-//                Map<String, Object> viewObjects = new HashMap<>();
-//
-//                viewObjects.put("templateName", "articleRead.ftl");
-//
-//                viewObjects.put("article",articleParentDbService.readOne(id));
-//                return modelAndView(viewObjects, "layout.ftl");
-//            }
-//        });
 //
 //        get(new FreeMarkerRoute("/parentInfo/update/:id") {
 //            @Override

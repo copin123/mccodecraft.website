@@ -1,8 +1,9 @@
-package com.mccodecraft.Website;
+package com.mccodecraft.Website.Dao;
+
+import com.mccodecraft.Website.DbObjects.Parent;
+import com.mccodecraft.Website.DbService.ParentDbService;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Created by james on 2/20/17.
@@ -69,6 +70,7 @@ public class ParentPostgresDao <T extends Parent> implements ParentDbService<T> 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T read(Integer pId) {
         Parent gottenParent = null;
         try {

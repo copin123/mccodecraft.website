@@ -1,12 +1,14 @@
-package com.mccodecraft.Website;
+package com.mccodecraft.Website.Servlet;
+
+import com.mccodecraft.Website.DbObjects.Parent;
+import com.mccodecraft.Website.DbService.ParentDbService;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by james on 2/20/17.
  */
-public class ParentServletDao<T extends Parent>  implements ParentDbService<T>{
+public class ParentServletDao<T extends Parent>  implements ParentDbService<T> {
     ArrayList<T> parentObj;
     public ParentServletDao() { parentObj = new ArrayList<T>(); }
 

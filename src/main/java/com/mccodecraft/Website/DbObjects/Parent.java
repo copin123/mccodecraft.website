@@ -1,4 +1,4 @@
-package com.mccodecraft.Website;
+package com.mccodecraft.Website.DbObjects;
 
 import java.text.DateFormat;
 import java.text.ParseException;

@@ -1,4 +1,4 @@
-package com.mccodecraft.Website;
+package com.mccodecraft.Website.DbService;
 
 import java.util.Date;
 
