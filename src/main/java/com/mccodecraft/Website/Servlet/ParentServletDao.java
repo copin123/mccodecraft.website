@@ -26,6 +26,7 @@ public class ParentServletDao<T extends Parent>  implements ParentDbService<T> {
     @Override
     public Boolean update(Integer pId, String pName, String fName, String lName, String pWord, String joinDate) {
         T entity = parentObj.get(pId);
+        
         entity.setpName(pName).setfName(fName).setlName(lName).setpWord(pWord).setJoinDate(joinDate);
 
         return true;
