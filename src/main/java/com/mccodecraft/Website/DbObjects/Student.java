@@ -1,5 +1,13 @@
 package com.mccodecraft.Website.DbObjects;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Entity;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,20 +16,35 @@ import java.util.Date;
 /**
  * Created by james on 2/20/17.
  */
+@DynamicUpdate
 public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "pId")
     private final Integer pID;
+    @Column(name = "sId")
     private final Integer sID;
+    @Column(name = "pName")
     private final String pName;
+    @Column(name = "fName")
     private final String fName;
+    @Column(name = "lName")
     private final String lName;
+    @Column(name = "pWord")
     private final String pWord;
+    @Column(name = "joinDate")
     private final Date joinDate;
+    @Column(name = "isDeleted")
     private final Boolean isDeleted;
+    @Column(name = "dateDeleted")
     private final Date dateDeleted;
+    @Column(name = "currentCourse")
     private final Integer currentCourse;
+    @Column(name = "lastVideoViewed")
     private final Integer lastVideoViewed;
 
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
 
     public Student(
             final Integer pId,
@@ -161,6 +184,20 @@ public class Student {
         public StudentBuilder setLastVideoViewed(Integer lastVideoViewed) {
             this.lastVideoViewed = lastVideoViewed;
             return this;
+        }
+
+        public Student build() {
+            return new Student(pId,
+            sId,
+            pName,
+            fName,
+            lName,
+            pWord,
+            joinDate,
+            isDeleted,
+            dateDeleted,
+            currentCourse,
+            lastVideoViewed);
         }
     }
 }
