@@ -93,15 +93,8 @@ public class Parent {
         private Boolean isDeleted;
         private Date dateDeleted;
 
-        public ParentBuilder(Integer pId, String pName, String fName, String lName, String pWord, Date joinDate, Boolean isDeleted, Date dateDeleted) {
+        public ParentBuilder(Integer pId) {
             this.pID = pId;
-            this.pName = pName;
-            this.fName = fName;
-            this.lName = lName;
-            this.pWord = pWord;
-            this.joinDate = joinDate;
-            this.isDeleted = isDeleted;
-            this.dateDeleted = dateDeleted;
         }
 
         public ParentBuilder setpID(Integer pID) {
@@ -144,9 +137,9 @@ public class Parent {
 
         }
 
-        public ParentBuilder setIsDeleted() {
-            this.isDeleted = true;
-            this.dateDeleted = new Date();
+        public ParentBuilder setIsDeleted(boolean isDeleted) {
+            this.isDeleted = isDeleted;
+            this.dateDeleted =  (isDeleted)? new Date() : null;
             return this;
         }
 

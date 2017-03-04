@@ -5,6 +5,7 @@ package com.mccodecraft.Website.pages;
 
 import com.mccodecraft.Website.Dao.ParentPostgresDao;
 import com.mccodecraft.Website.DbObjects.Parent;
+import com.mccodecraft.Website.DbService.ParentDbService;
 import spark.Request;
 import spark.Response;
 import spark.template.freemarker.FreeMarkerRoute;
@@ -26,33 +27,31 @@ public class WebsiteLanding {
                 Integer id = Integer.parseInt(request.params(":id"));
                 Map<String, Object> viewObjects = new HashMap<>();
 
-                viewObjects.put("templateName", "parentInfoform.ftl");
+                viewObjects.put("templateName", "parentInfoForm.ftl");
 
-                viewObjects.put("article",parentDbService.read(id));
+                viewObjects.put("article", parentDbService.read(id));
                 return modelAndView(viewObjects, "layout.ftl");
             }
         });
 
 
+        get(new FreeMarkerRoute("/") {
+            @Override
+            public Object handle(Request request, Response response) {
+                Map<String, Object> viewObjects = new HashMap<>();
+                Parent parent = (Parent) parentDbService.read(1);
 
+                if (null == parent) {
+                    viewObjects.put("hasNoParents", "Welcome, please click \"Write Parent\" to begin.");
+                } else {
+                    Deque<Parent> showParents = new ArrayDeque<>();
 
-        //      /  get(new FreeMarkerRoute("/") {
-//            @Override
-//            public ModelAndView handle(Request request, Response response) {
-//                Map<String, Object> viewObjects = new HashMap<>();
-//                Parent parent = (Parent) ParentDbService.read(1);
-//
-//                if (null == parent) {
-//                    viewObjects.put("hasNoParents","Welcome, please click \"Write Parent\" to begin.");
-//                } else {
-//                    Deque<Parent> showParents = new ArrayDeque<>();
-//
-//                    viewObjects.put("parentInfo", showParents);
-//                }
-//                viewObjects.put("templateName", "articleList.ftl");
-//                return modelAndView(viewObjects, "layout.ftl");
-//            }
-//        });
+                    viewObjects.put("parentInfo", showParents);
+                }
+                viewObjects.put("templateName", "index.ftl");
+                return modelAndView(viewObjects, "layout.ftl");
+            }
+        });
 
 //        get(new FreeMarkerRoute("/parentInfo/create") {
 //            @Override

@@ -21,27 +21,27 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pId")
-    private final Integer pID;
+    private  Integer pID;
     @Column(name = "sId")
-    private final Integer sID;
+    private Integer sID;
     @Column(name = "pName")
-    private final String pName;
+    private String pName;
     @Column(name = "fName")
-    private final String fName;
+    private String fName;
     @Column(name = "lName")
-    private final String lName;
+    private String lName;
     @Column(name = "pWord")
-    private final String pWord;
+    private String pWord;
     @Column(name = "joinDate")
-    private final Date joinDate;
+    private Date joinDate;
     @Column(name = "isDeleted")
-    private final Boolean isDeleted;
+    private Boolean isDeleted;
     @Column(name = "dateDeleted")
-    private final Date dateDeleted;
+    private Date dateDeleted;
     @Column(name = "currentCourse")
-    private final Integer currentCourse;
+    private Integer currentCourse;
     @Column(name = "lastVideoViewed")
-    private final Integer lastVideoViewed;
+    private Integer lastVideoViewed;
 
     DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -58,17 +58,17 @@ public class Student {
             final Date dateDeleted,
             final Integer currentCourse,
             final Integer lastVideoViewed) {
-        this.pID = pId;
-        this.sID = sId;
-        this.pName = pName;
-        this.fName = fName;
-        this.lName = lName;
-        this.pWord = pWord;
-        this.joinDate = joinDate;
-        this.isDeleted = isDeleted;
-        this.dateDeleted = dateDeleted;
-        this.currentCourse = currentCourse;
-        this.lastVideoViewed = lastVideoViewed;
+//        this.pID = pId;
+//        this.sID = sId;
+//        this.pName = pName;
+//        this.fName = fName;
+//        this.lName = lName;
+//        this.pWord = pWord;
+//        this.joinDate = joinDate;
+//        this.isDeleted = isDeleted;
+//        this.dateDeleted = dateDeleted;
+//        this.currentCourse = currentCourse;
+//        this.lastVideoViewed = lastVideoViewed;
     }
 
     public Integer getpID() {return this.pID; }
@@ -97,71 +97,44 @@ public class Student {
         return lastVideoViewed;
     }
 
+    // adding for hibernate
 
-
-    public static class StudentBuilder {
-        private Integer pId;
-        private Integer sId;
-        private String pName;
-        private String fName;
-        private String lName;
-        private String pWord;
-        private Date joinDate;
-        private Boolean isDeleted;
-        private Date dateDeleted;
-        private Integer currentCourse;
-        private Integer lastVideoViewed;
-
-        public StudentBuilder(final Integer pId, final Integer sId, String pName, String fName, String lName, String pWord, Date joinDate, Boolean isDeleted,
-                              Date dateDeleted, Integer currentCourse, Integer lastVideoViewed) {
-            this.pId = pId;
-            this.sId = sId;
-            this.pName = pName;
-            this.fName = fName;
-            this.lName = lName;
-            this.pWord = pWord;
-            this.joinDate = joinDate;
-            this.isDeleted = isDeleted;
-            this.currentCourse = currentCourse;
-            this.lastVideoViewed = lastVideoViewed;
-        }
-
-        public StudentBuilder setpID(Integer pID) {
-            this.pId = pID;
+        public Student setpID(Integer pID) {
+            this.pID = pID;
             return this;
         }
 
-        public StudentBuilder setSId(Integer sId) {
-            this.sId = sId;
+        public Student setSId(Integer sId) {
+            this.sID = sId;
             return this;
         }
 
-        public StudentBuilder setpName(String pName) {
+        public Student setpName(String pName) {
             this.pName = pName;
             return this;
         }
 
-        public StudentBuilder setfName(String fName) {
+        public Student setfName(String fName) {
             this.fName = fName;
             return this;
         }
 
-        public StudentBuilder setlName(String lName) {
+        public Student setlName(String lName) {
             this.lName = lName;
             return this;
         }
 
-        public StudentBuilder setpWord(String pWord) {
+        public Student setpWord(String pWord) {
             this.pWord = pWord;
             return this;
         }
 
-        public StudentBuilder setJoinDate(Date joinDate) {
+        public Student setJoinDate(Date joinDate) {
             this.joinDate = joinDate;
             return this;
         }
 
-        public StudentBuilder setJoinDate(String joinDate) {
+        public Student setJoinDate(String joinDate) {
             try {
                 this.joinDate = new SimpleDateFormat("MM/dd/yyyy").parse(joinDate);
             } catch (ParseException e) {
@@ -170,34 +143,112 @@ public class Student {
             return this;
         }
 
-        public StudentBuilder setIsDeleted() {
+        public Student setIsDeleted() {
             this.isDeleted = true;
             this.dateDeleted = new Date();
             return this;
         }
 
-        public StudentBuilder setCurrentCourse(Integer currentCourse) {
+        public Student setCurrentCourse(Integer currentCourse) {
             this.currentCourse = currentCourse;
             return this;
         }
 
-        public StudentBuilder setLastVideoViewed(Integer lastVideoViewed) {
+        public Student setLastVideoViewed(Integer lastVideoViewed) {
             this.lastVideoViewed = lastVideoViewed;
             return this;
         }
 
-        public Student build() {
-            return new Student(pId,
-            sId,
-            pName,
-            fName,
-            lName,
-            pWord,
-            joinDate,
-            isDeleted,
-            dateDeleted,
-            currentCourse,
-            lastVideoViewed);
-        }
-    }
+
+//    public static class StudentBuilder {
+//        private Integer pId;
+//        private Integer sId;
+//        private String pName;
+//        private String fName;
+//        private String lName;
+//        private String pWord;
+//        private Date joinDate;
+//        private Boolean isDeleted;
+//        private Date dateDeleted;
+//        private Integer currentCourse;
+//        private Integer lastVideoViewed;
+//
+//        public StudentBuilder(final Integer pId) {
+//            this.pId = pId;
+//        }
+//
+//        public StudentBuilder setpID(Integer pID) {
+//            this.pId = pID;
+//            return this;
+//        }
+//
+//        public StudentBuilder setSId(Integer sId) {
+//            this.sId = sId;
+//            return this;
+//        }
+//
+//        public StudentBuilder setpName(String pName) {
+//            this.pName = pName;
+//            return this;
+//        }
+//
+//        public StudentBuilder setfName(String fName) {
+//            this.fName = fName;
+//            return this;
+//        }
+//
+//        public StudentBuilder setlName(String lName) {
+//            this.lName = lName;
+//            return this;
+//        }
+//
+//        public StudentBuilder setpWord(String pWord) {
+//            this.pWord = pWord;
+//            return this;
+//        }
+//
+//        public StudentBuilder setJoinDate(Date joinDate) {
+//            this.joinDate = joinDate;
+//            return this;
+//        }
+//
+//        public StudentBuilder setJoinDate(String joinDate) {
+//            try {
+//                this.joinDate = new SimpleDateFormat("MM/dd/yyyy").parse(joinDate);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            return this;
+//        }
+//
+//        public StudentBuilder setIsDeleted() {
+//            this.isDeleted = true;
+//            this.dateDeleted = new Date();
+//            return this;
+//        }
+//
+//        public StudentBuilder setCurrentCourse(Integer currentCourse) {
+//            this.currentCourse = currentCourse;
+//            return this;
+//        }
+//
+//        public StudentBuilder setLastVideoViewed(Integer lastVideoViewed) {
+//            this.lastVideoViewed = lastVideoViewed;
+//            return this;
+//        }
+//
+//        public Student build() {
+//            return new Student(pId,
+//            sId,
+//            pName,
+//            fName,
+//            lName,
+//            pWord,
+//            joinDate,
+//            isDeleted,
+//            dateDeleted,
+//            currentCourse,
+//            lastVideoViewed);
+//        }
+//    }
 }

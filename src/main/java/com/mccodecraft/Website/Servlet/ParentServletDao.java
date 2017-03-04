@@ -26,15 +26,23 @@ public class ParentServletDao<T extends Parent>  implements ParentDbService<T> {
     @Override
     public Boolean update(Integer pId, String pName, String fName, String lName, String pWord, String joinDate) {
         T entity = parentObj.get(pId);
-        
-        entity.setpName(pName).setfName(fName).setlName(lName).setpWord(pWord).setJoinDate(joinDate);
-
+        // re insert new object with sam pId.
+        Parent.ParentBuilder parentBuilder = new Parent.ParentBuilder(pId);
+            parentBuilder
+                .setpID(pId)
+                .setpName(pName)
+                .setfName(fName)
+                .setlName(lName)
+                .setpWord(pWord)
+                .setJoinDate(joinDate)
+                .build();
         return true;
     }
 
     @Override
     public Boolean delete(Integer pId) {
-        parentObj.get(pId).setIsDeleted();
+         Parent.ParentBuilder parentBuilder = new Parent.ParentBuilder(pId);
+         parentBuilder.setIsDeleted(true).build();
         return true;
     }
 }
