@@ -1,0 +1,43 @@
+<!--<?xml version="1.0"?>-->
+<!--<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"-->
+        <!--"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">-->
+
+<!--<hibernate-mapping>-->
+    <!--<class name="com.mccodecraft.Website.DbObjects.Student" table="STUDENT">-->
+        <!--<id name="sId" type="int">-->
+            <!--<column name="ID" />-->
+            <!--<generator class="increment" />-->
+        <!--</id>-->
+        <!--<property name="pId" type="int">-->
+            <!--<column name="pId" />-->
+        <!--</property>-->
+        <!--<property name="pName" type="java.lang.String">-->
+            <!--<column name="pName" />-->
+        <!--</property>-->
+        <!--<property name="pName" type="java.lang.String">-->
+            <!--<column name="pName" />-->
+        <!--</property>-->
+        <!--<property name="fName" type="java.lang.String">-->
+            <!--<column name="fName" />-->
+        <!--</property>-->
+        <!--<property name="lName" type="java.lang.String">-->
+            <!--<column name="lName" />-->
+        <!--</property>-->
+        <!--<property name="pWord" type="java.lang.String">-->
+            <!--<column name="pWord" />-->
+        <!--</property>-->
+
+        <!--<property name="joindate" type="timestamp">-->
+            <!--<column name="joinDate" />-->
+        <!--</property>-->
+        <!--<property name="isDeleted" type="boolean">-->
+            <!--<column name="isDeleted" />-->
+        <!--</property>-->
+        <!--<property name="dateDeleted" type="timestamp">-->
+            <!--<column name="dateDeleted" />-->
+        <!--</property>-->
+        <!--<property name="currentCourse" type="int">-->
+            <!--<column name="currentCourse" />-->
+        <!--</property>-->
+    <!--</class>-->
+<!--</hibernate-mapping>-->
