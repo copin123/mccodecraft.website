@@ -13,7 +13,7 @@ public class ParentServletDao<T extends Parent>  implements ParentDbService<T> {
     public ParentServletDao() { parentObj = new ArrayList<T>(); }
 
     @Override
-    public Boolean create(T entity) {
+    public Integer create(T entity) {
         parentObj.add(entity);
         return null;
     }
@@ -27,22 +27,19 @@ public class ParentServletDao<T extends Parent>  implements ParentDbService<T> {
     public Boolean update(Integer pId, String pName, String fName, String lName, String pWord, String joinDate) {
         T entity = parentObj.get(pId);
         // re insert new object with sam pId.
-        Parent.ParentBuilder parentBuilder = new Parent.ParentBuilder(pId);
-            parentBuilder
-                .setpID(pId)
+        Parent parent = new Parent(pId)
                 .setpName(pName)
                 .setfName(fName)
                 .setlName(lName)
                 .setpWord(pWord)
-                .setJoinDate(joinDate)
-                .build();
+                .setJoinDate();
         return true;
     }
 
     @Override
     public Boolean delete(Integer pId) {
-         Parent.ParentBuilder parentBuilder = new Parent.ParentBuilder(pId);
-         parentBuilder.setIsDeleted(true).build();
+         Parent parentBuilder = new Parent(pId);
+         parentBuilder.setIsDeleted(true);
         return true;
     }
 }

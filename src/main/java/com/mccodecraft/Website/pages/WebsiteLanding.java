@@ -3,9 +3,8 @@
  */
 package com.mccodecraft.Website.pages;
 
-import com.mccodecraft.Website.Dao.ParentPostgresDao;
+import com.mccodecraft.Website.Dao.ParentMySQLDao;
 import com.mccodecraft.Website.DbObjects.Parent;
-import com.mccodecraft.Website.DbService.ParentDbService;
 import spark.Request;
 import spark.Response;
 import spark.template.freemarker.FreeMarkerRoute;
@@ -16,7 +15,7 @@ import static spark.Spark.get;
 
 public class WebsiteLanding {
 
-    public static ParentPostgresDao<Parent> parentDbService = new ParentPostgresDao<>();
+    public static ParentMySQLDao<Parent> parentDbService = new ParentMySQLDao<>();
 
     public static void main(String[] args) {
 
@@ -39,7 +38,8 @@ public class WebsiteLanding {
             @Override
             public Object handle(Request request, Response response) {
                 Map<String, Object> viewObjects = new HashMap<>();
-                Parent parent = (Parent) parentDbService.read(1);
+                Parent parent = null;
+                 parent = parentDbService.read(1);
 
                 if (null == parent) {
                     viewObjects.put("hasNoParents", "Welcome, please click \"Write Parent\" to begin.");

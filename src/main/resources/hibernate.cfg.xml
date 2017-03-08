@@ -6,9 +6,9 @@
     <session-factory>
         <!-- Database connection properties - Driver, URL, user, password -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgressql://localhost/sparkledb</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">postgress/property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/mccodecraftdb</property>
+        <property name="hibernate.connection.username">website</property>
+        <property name="hibernate.connection.password">mccodecraftDB</property>
         <!-- Connection Pool Size -->
         <property name="hibernate.connection.pool_size">1</property>
 
@@ -20,7 +20,7 @@
 
         <!-- Dialect is required to let Hibernate know the Database Type, MySQL, Oracle etc
             Hibernate 4 automatically figure out Dialect from Database Connection Metadata -->
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
         <!-- mapping file, we can use Bean annotations too -->
         <mapping resource="student.hbm.xml" />
