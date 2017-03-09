@@ -7,6 +7,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 import java.sql.*;
@@ -22,53 +27,73 @@ public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
 
     @Override
     public Integer create(T entity) {
-        Session session = factory.openSession();
-        Transaction tx = null;
+        //new code from http://techpost360.blogspot.se/2015/12/hibernate-5-maven-example.html
+
+        factory = new Configuration().addAnnotatedClass(Parent.class).configure().buildSessionFactory();
+        Session session  = factory.openSession();
+        Transaction tx = session.beginTransaction();
         Integer pID = null;
-        try {
-            tx = session.beginTransaction();
-            Parent parent = new Parent()
-                    .setfName(entity.getfName())
-                    .setlName(entity.getlName())
-                    .setJoinDate()
-                    .setpWord(entity.getpWord())
-                    .setIsDeleted(false)
-                    .setpName(entity.getpName())
-                    .setJoinDate();
-            pID = (Integer) session.save(parent);
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx != null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
+
+        Parent parent = new Parent()
+                .setfName(entity.getfName())
+                .setlName(entity.getlName())
+                .setJoinDate()
+                .setpWord(entity.getpWord())
+                .setIsDeleted(false)
+                .setpName(entity.getpName())
+                .setJoinDate();
+        pID = (Integer) session.save(parent);
+        tx.commit();
+        session.close();
+
+//        Session session = factory.openSession();
+//        Transaction tx = null;
+//        try {
+//            tx = session.beginTransaction();
+//        } catch (HibernateException e) {
+//            if (tx != null) tx.rollback();
+//            e.printStackTrace();
+//        } finally {
+//            session.close();
+//        }
         return pID;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public T read(Integer pID) {
-        SessionFactory sessionFactory = null;
-        try {
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Transaction tx = null;
-        Parent parent = null;
-        Session session = sessionFactory.openSession();
-        try {
-            tx = session.beginTransaction();
-            parent = session.get(Parent.class, pID);
-        } catch (HibernateException ex) {
-            if (tx != null) tx.rollback();
-            ex.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return (T) parent;
+//        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
+//                .configure("com/mccodecraft/Website/resources/hibernate.cfg.xml")
+//                .build();
+//        Metadata metadata = new MetadataSources(standardRegistry)
+//                .addAnnotatedClass(Parent.class)
+////                .addAnnotatedClassName()
+//                .getMetadataBuilder()
+//                .applyImplicitNamingStrategy(ImplicitNamingStrategyJpaCompliantImpl.INSTANCE)
+//                .build();
+//        SessionFactory sessionFactory = metadata.getSessionFactoryBuilder()
+//                .applyBeanManager(getbeanmanagerfromsomewhere()).build();
+//        try {
+//            sessionFactory = new Configuration().configure().buildSessionFactory();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Transaction tx = null;
+//        Parent parent = null;
+//        Session session = sessionFactory.openSession();
+//        try {
+//            tx = session.beginTransaction();
+//            parent = session.get(Parent.class, pID);
+//        } catch (HibernateException ex) {
+//            if (tx != null) tx.rollback();
+//            ex.printStackTrace();
+//        } finally {
+//            session.close();
+//        }
+//        return (T) parent;
+        return null;
     }
+
 
     @Override
     public Boolean update(Integer pId, String pName, String fName, String lName, String pWord, String joinDate) {

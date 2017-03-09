@@ -16,11 +16,11 @@ import java.util.List;
  * Created by james on 2/20/17.
  */
 @Entity
-@Table(name = "PARENT")
+@Table(name = "parent")
 public class Parent {
     @Id
-    @GeneratedValue
-    @Column(name = "pId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pID")
     private Integer pID;
     @Column(name = "pName")
     private String pName;
@@ -32,12 +32,10 @@ public class Parent {
     private String pWord;
     @Column(name = "joinDate")
     private Date joinDate;
-    @Column(name = "isDeleted")
+    @Column(name = "isDeletee")
     private Boolean isDeleted;
-    @Column(name = "dateDeleted")
+    @Column(name = "deleteDate")
     private Date dateDeleted;
-
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     public Parent() {}
 
@@ -72,7 +70,8 @@ public class Parent {
         return pWord;
     }
 
-    public String getStrngJoinDate() {
+    public String getStringJoinDate() {
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         return dateFormat.format(joinDate);
     }
 

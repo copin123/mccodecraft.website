@@ -5,6 +5,7 @@ package com.mccodecraft.Website.pages;
 
 import com.mccodecraft.Website.Dao.ParentMySQLDao;
 import com.mccodecraft.Website.DbObjects.Parent;
+import com.sun.xml.internal.ws.util.StringUtils;
 import spark.Request;
 import spark.Response;
 import spark.template.freemarker.FreeMarkerRoute;
@@ -39,14 +40,28 @@ public class WebsiteLanding {
             public Object handle(Request request, Response response) {
                 Map<String, Object> viewObjects = new HashMap<>();
                 Parent parent = null;
-                 parent = parentDbService.read(1);
 
-                if (null == parent) {
+                // wiring into insert,
+
+                parent = new Parent()
+                        .setfName("firstname")
+                        .setlName("lastname")
+                        .setpName("person?name")
+                        .setpWord("password");
+
+
+
+
+                Integer newID = parentDbService.create(parent);
+
+//                 parent = parentDbService.read(1);
+
+                if (null == newID) {
                     viewObjects.put("hasNoParents", "Welcome, please click \"Write Parent\" to begin.");
                 } else {
-                    Deque<Parent> showParents = new ArrayDeque<>();
+//                    Deque<Parent> showParents = new ArrayDeque<>();
 
-                    viewObjects.put("parentInfo", showParents);
+                    viewObjects.put("hasParents","Awesome, you created parent with parent id of :" + newID);
                 }
                 viewObjects.put("templateName", "index.ftl");
                 return modelAndView(viewObjects, "layout.ftl");
