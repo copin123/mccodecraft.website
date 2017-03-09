@@ -25,6 +25,7 @@ public class WebsiteLanding {
             @Override
             public Object handle(Request request, Response response) {
                 Integer id = Integer.parseInt(request.params(":id"));
+                Parent parent =  parentDbService.read(id);
                 Map<String, Object> viewObjects = new HashMap<>();
 
                 viewObjects.put("templateName", "parentInfoForm.ftl");
@@ -48,10 +49,6 @@ public class WebsiteLanding {
                         .setlName("lastname")
                         .setpName("person?name")
                         .setpWord("password");
-
-
-
-
                 Integer newID = parentDbService.create(parent);
 
 //                 parent = parentDbService.read(1);

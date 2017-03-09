@@ -14,6 +14,10 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+
+import static javax.persistence.EntityManagerFactory.*;
 import java.sql.*;
 
 /**
@@ -25,6 +29,9 @@ public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
 //    private Statement stmnt;
     private static SessionFactory factory = null;
 
+    protected void setUp() throws Exception {
+    }
+
     @Override
     public Integer create(T entity) {
         //new code from http://techpost360.blogspot.se/2015/12/hibernate-5-maven-example.html
@@ -34,7 +41,7 @@ public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
         Transaction tx = session.beginTransaction();
         Integer pID = null;
 
-        Parent parent = new Parent()
+         Parent parent = new Parent()
                 .setfName(entity.getfName())
                 .setlName(entity.getlName())
                 .setJoinDate()
@@ -45,23 +52,27 @@ public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
         pID = (Integer) session.save(parent);
         tx.commit();
         session.close();
-
-//        Session session = factory.openSession();
-//        Transaction tx = null;
-//        try {
-//            tx = session.beginTransaction();
-//        } catch (HibernateException e) {
-//            if (tx != null) tx.rollback();
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
         return pID;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public T read(Integer pID) {
+
+        factory = new Configuration().addAnnotatedClass(Parent.class).configure().buildSessionFactory();
+        Session session  = factory.openSession();
+        Transaction tx = session.beginTransaction();
+
+        try{
+            Parent aParent= (Parent) session.get(Parent.class, pID);
+            tx.commit();
+            session.close();
+            return (T) aParent;
+        } catch (HibernateException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+
 //        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
 //                .configure("com/mccodecraft/Website/resources/hibernate.cfg.xml")
 //                .build();
