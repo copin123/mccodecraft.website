@@ -1,53 +1,55 @@
 package com.mccodecraft.Website.Dao;
 
 import com.mccodecraft.Website.DbObjects.Parent;
-import com.mccodecraft.Website.DbService.ParentDbService;
+import com.mccodecraft.Website.DbObjects.Student;
+import com.mccodecraft.Website.DbService.StudentDbService;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.Date;
+
 /**
- * Created by james on 2/20/17.
+ * Created by james on 3/14/17.
  */
-public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
+public class StudentMySQLDao <T extends Student> implements StudentDbService<T> {
     private static SessionFactory factory = null;
+
 
     @Override
     public Integer create(T entity) {
-        //new code from http://techpost360.blogspot.se/2015/12/hibernate-5-maven-example.html
-
-        factory = new Configuration().addAnnotatedClass(Parent.class).configure().buildSessionFactory();
-        Session session  = factory.openSession();
+        factory = new Configuration().addAnnotatedClass(Student.class).configure().buildSessionFactory();
+        Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
-        Integer pID = null;
+        Integer sID = null;
 
-         Parent parent = new Parent()
+        Student student = new Student()
                 .setfName(entity.getfName())
                 .setlName(entity.getlName())
                 .setpWord(entity.getpWord())
+                .setpID(entity.getpID())
+                .setSId(entity.getSId())
                 .setIsDeleted(false)
-                .setpName(entity.getpName())
                 .setJoinDate();
-        pID = (Integer) session.save(parent);
+        sID = (Integer) session.save(student);
         tx.commit();
         session.close();
-        return pID;
+        return sID;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public T read(Integer pID) {
-        factory = new Configuration().addAnnotatedClass(Parent.class).configure().buildSessionFactory();
+    public T read(Integer sID) {
+        factory = new Configuration().addAnnotatedClass(Student.class).configure().buildSessionFactory();
         Session session  = factory.openSession();
         Transaction tx = session.beginTransaction();
 
         try{
-            Parent aParent= (Parent) session.get(Parent.class, pID);
+            Student aStudent= (Student) session.get(Student.class, sID);
             tx.commit();
             session.close();
-            return (T) aParent;
+            return (T) aStudent;
         } catch (HibernateException e){
             e.printStackTrace();
             session.getTransaction().rollback();
@@ -55,19 +57,19 @@ public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
         return null;
     }
 
-
     @Override
-    public Boolean update(Integer pId, String pName, String fName, String lName, String pWord, String joinDate) {
+    public Boolean update(Integer pId, Integer sId, String psName, String fsName, String lsName, String psWord,
+                          Date sjoinDate) {
         Session session = factory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Parent parent = session.get(Parent.class, pId);
-            parent.setpName(pName)
-                    .setfName(fName)
-                    .setlName(lName)
-                    .setpWord(pWord)
-                    .setJoinDateString(joinDate);
+            Student student = session.get(Student.class, sId);
+            student.setpName(psName)
+                    .setfName(fsName)
+                    .setlName(lsName)
+                    .setpWord(psWord)
+                    .setJoinDate(sjoinDate);
             tx.commit();
         } catch (HibernateException ex) {
             if (tx != null) tx.rollback();
@@ -80,14 +82,14 @@ public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
     }
 
     @Override
-    public Boolean delete(Integer pId) {
+    public Boolean delete(Integer sId) {
         //similar to update, just setting isDeleted and adding a deleted date (date is set in parent object).
         Session session = factory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Parent parent = session.get(Parent.class, pId);
-            parent.setIsDeleted(true);
+            Student student = session.get(Student.class, sId);
+            student.setIsDeleted(true);
             tx.commit();
         } catch (HibernateException ex) {
             if (tx != null) tx.rollback();

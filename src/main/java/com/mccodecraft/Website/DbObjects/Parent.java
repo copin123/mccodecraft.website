@@ -39,17 +39,6 @@ public class Parent {
 
     public Parent() {}
 
-//    public Parent(Integer pId, String pName, String fName, String lName, String pWord, Date joinDate, Boolean isDeleted, Date dateDeleted) {
-//        this.pID = pId;
-//        this.pName = pName;
-//        this.fName = fName;
-//        this.lName = lName;
-//        this.pWord = pWord;
-//        this.joinDate = joinDate;
-//        this.isDeleted = isDeleted;
-//        this.dateDeleted = dateDeleted;
-//    }
-
     public Integer getpID() {
         return pID;
     }
@@ -82,16 +71,6 @@ public class Parent {
     public Boolean isDeleted() {
         return this.isDeleted;
     }
-
-//    public static class ParentBuilder {
-//        private Integer pID;
-//        private String pName;
-//        private String fName;
-//        private String lName;
-//        private String pWord;
-//        private Date joinDate;
-//        private Boolean isDeleted;
-//        private Date dateDeleted;
 
     public Parent(Integer pId) {
         this.pID = pId;
@@ -139,7 +118,6 @@ public class Parent {
     public Parent setJoinDate() {
         this.joinDate = new Date();
         return this;
-
     }
 
     public Parent setIsDeleted(boolean isDeleted) {
@@ -147,18 +125,5 @@ public class Parent {
         this.dateDeleted = (isDeleted) ? new Date() : null;
         return this;
     }
-
-//        public Parent build() {
-//            return new Parent(pID,
-//                    pName,
-//                    fName,
-//                    lName,
-//                    pWord,
-//                    joinDate,
-//                    isDeleted,
-//                    dateDeleted);
-//        }
-//    }
-
 
 }
