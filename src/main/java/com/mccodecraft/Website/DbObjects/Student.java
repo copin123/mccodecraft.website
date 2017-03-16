@@ -3,10 +3,7 @@ package com.mccodecraft.Website.DbObjects;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,10 +17,11 @@ import java.util.Date;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "pId")
-    private Integer pID;
     @Column(name = "sId")
     private Integer sID;
+    @ManyToOne
+    @JoinColumn(name="pID")
+    private Integer pID;
     @Column(name = "studentName")
     private String psName;
     @Column(name = "studentFName")

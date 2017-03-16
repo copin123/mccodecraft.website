@@ -20,6 +20,7 @@ import java.util.List;
 public class Parent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @OneToMany(mappedBy = "parent")
     @Column(name = "pID")
     private Integer pID;
     @Column(name = "pName")

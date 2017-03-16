@@ -1,20 +1,20 @@
 package com.mccodecraft.Website.DbObjects;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by james on 2/24/17.
  */
+@Entity
+@Table(name = "videos")
 public class VideoObject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "videoID")
     private Integer videoId;
-//    @Column(name = "quantifiedVideoID")
-//    private Integer quantifiedVideoID;
+    @ManyToOne
+    @JoinColumn(name = "courseID")
+    private Integer courseID;
     @Column(name = "videoName")
     private String videoName;
     @Column(name = "videoDesc")
@@ -22,7 +22,7 @@ public class VideoObject {
     @Column(name = "youtubeLink")
     private String youtubeLink;
 
-        public Integer getVideoId() {
+    public Integer getVideoId() {
         return videoId;
     }
 
@@ -31,23 +31,18 @@ public class VideoObject {
         return this;
     }
 
+    public Integer getCourseId() {
+        return courseID;
+    }
+
+    public VideoObject setCourseId(Integer courseId) {
+        this.courseID = courseId;
+        return this;
+    }
+
     public String getVideoName() {
         return videoName;
     }
-
-//    public Integer getQuantifiedVideoID() {
-//        if(quantifiedVideoID < 100) {
-//            setQuantifiedVideoID(CourseObject.createQuantifiedVideoID(this.videoId, this.courseId));
-//            return quantifiedVideoID;
-//        } else {
-//            return quantifiedVideoID;
-//        }
-//    }
-//
-//    public VideoObject setQuantifiedVideoID(Integer quantifiedVideoID) {
-//        this.quantifiedVideoID = quantifiedVideoID;
-//        return this;
-//    }
 
     public VideoObject setVideoName(String videoName) {
         this.videoName = videoName;

@@ -26,7 +26,7 @@ public class VideoMySQLDao<T extends VideoObject> implements VideoDbService<T> {
                 .setVideoId(entity.getVideoId())
                 .setVideoName(entity.getVideoName())
                 .setVideoDesc(entity.getVideoDesc())
-                .setYoutubeLink(entity.getYoutubeLink())
+                .setYoutubeLink(entity.getYoutubeLink());
 
         qVideoID = (Integer) session.save(video);
         //todo figure out how to have video create return quantified video value
@@ -60,16 +60,12 @@ public class VideoMySQLDao<T extends VideoObject> implements VideoDbService<T> {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            VideoObject videoObject = session.get(VideoObject.class, entity.getQuantifiedVideoID());
+            VideoObject videoObject = session.get(VideoObject.class, entity.getVideoId());
             videoObject
                     .setVideoId(entity.getVideoId())
                     .setVideoName(entity.getVideoName())
                     .setVideoDesc(entity.getVideoDesc())
-                    .setYoutubeLink(entity.getYoutubeLink())
-                    .setCourseId(entity.getCourseId())
-                    .setCourseName(entity.getCourseName())
-                    .setCourseDesc(entity.getCourseDesc())
-                    .setQuantifiedVideoID(entity.getQuantifiedVideoID());
+                    .setYoutubeLink(entity.getYoutubeLink());
             tx.commit();
         } catch (HibernateException ex) {
             if (tx != null) tx.rollback();

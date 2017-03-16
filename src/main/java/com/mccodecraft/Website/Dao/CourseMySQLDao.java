@@ -30,12 +30,16 @@ public class CourseMySQLDao<T extends CourseObject> implements CourseDbService<T
     }
 
     @Override
-    public Object read(Integer vID) {
-        return null;
+    public T read(Integer vID) {
+        factory = new Configuration().addAnnotatedClass(VideoObject.class).configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();return null;
     }
 
     @Override
-    public Boolean update(Object entity) {
-        return null;
+    public Boolean update(T entity) {
+        factory = new Configuration().addAnnotatedClass(VideoObject.class).configure().buildSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = session.beginTransaction();return null;
     }
 }
