@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,10 +18,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "parent")
-public class Parent {
+public class Parent implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToMany(mappedBy = "parent")
+//    @OneToMany(mappedBy = "parent")
     @Column(name = "pID")
     private Integer pID;
     @Column(name = "pName")

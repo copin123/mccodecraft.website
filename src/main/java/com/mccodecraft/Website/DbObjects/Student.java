@@ -1,26 +1,32 @@
 package com.mccodecraft.Website.DbObjects;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Entity;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 /**
  * Created by james on 2/20/17.
  */
+@Entity
+@Table(name = "student")
 @DynamicUpdate
-public class Student {
+public class Student implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "sId")
+    @Column(name = "sID")
     private Integer sID;
-    @ManyToOne
-    @JoinColumn(name="pID")
+//    @ManyToOne
+//    @JoinColumn(name="pID", foreignKey = @ForeignKey(name = "student_parent_FK"))
+//    Hibernate book 263
+    @ManyToOne (targetEntity = Parent.class)
+    @JoinColumn(name = "pID", nullable = false)
     private Integer pID;
     @Column(name = "studentName")
     private String psName;

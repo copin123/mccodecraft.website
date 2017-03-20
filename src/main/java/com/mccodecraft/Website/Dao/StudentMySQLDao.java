@@ -16,15 +16,21 @@ import java.util.Date;
  */
 public class StudentMySQLDao <T extends Student> implements StudentDbService<T> {
     private static SessionFactory factory = null;
+    private Transaction tx = null;
+    private Session session = null;
 
 
     @Override
     public Integer create(T entity) {
-        factory = new Configuration().addAnnotatedClass(Student.class).configure().buildSessionFactory();
-        Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
         Integer sID = null;
-
+        try {
+            factory = new Configuration().addAnnotatedClass(Student.class).configure().buildSessionFactory();
+            Session session = factory.openSession();
+            tx = session.beginTransaction();
+        } catch (HibernateException exception) {
+            exception.printStackTrace();
+            return null;
+        }
         Student student = new Student()
                 .setfName(entity.getfName())
                 .setlName(entity.getlName())

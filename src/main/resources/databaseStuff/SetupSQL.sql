@@ -25,20 +25,26 @@ CREATE TABLE `student` (
   `studentDeleteDate` date DEFAULT NULL,
   `pID` int(11) NOT NULL,
   `sID` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`pID`, `sID`),
-  UNIQUE KEY `student_sID_IDX` (`sID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`pID`,`sID`),
+  UNIQUE KEY `student_sID_IDX` (`sID`),
+  CONSTRAINT `student_parent_FK` FOREIGN KEY (`pID`) REFERENCES `parent` (`pID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1
 
-CREATE TABLE `videoObject` (
+CREATE TABLE `course` (
+    `courseID` int(11) NOT NULL AUTO_INCREMENT,
+    `courseName` varchar(25) NOT NULL,
+    `courseDesc` varchar(2500) NOT NULL,
+    PRIMARY KEY (`courseID`),
+    UNIQUE KEY `course_courseID_IDX` (`courseID`)
+
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+CREATE TABLE `video` (
     `videoID` int(11) NOT NULL AUTO_INCREMENT,
+    `courseID` int(11) NOT NULL,
     `videoName` varchar(25) NOT NULL,
     `videoDesc` varchar(2500) NOT NULL,
     `youtubeLink` varchar(40) NOT NULL,
-    `courseID` int(11) NOT NULL,
-    `courseName` varchar(25) NOT NULL,
-    `courseDesc` varchar(2500) NOT NULL,
-    `quantifiedVideoID` int(11) NOT NULL,
-     PRIMARY KEY (`quantifiedVideoID`),
-     UNIQUE KEY `videoObject_quantifiedVideoID_IDX` (`quantifiedVideoID`)
+    PRIMARY KEY (`videoID`),
+    CONSTRAINT `video_course_FK` FOREIGN KEY (`courseID`) REFERENCES `course` (`courseID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-video needs a course fk
+
