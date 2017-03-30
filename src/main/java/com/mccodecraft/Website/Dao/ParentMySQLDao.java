@@ -8,6 +8,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.Date;
+
 /**
  * Created by james on 2/20/17.
  */
@@ -29,7 +31,7 @@ public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
                 .setpWord(entity.getpWord())
                 .setIsDeleted(false)
                 .setpName(entity.getpName())
-                .setJoinDate();
+                .setJoinDate(new Date());
         pID = (Integer) session.save(parent);
         tx.commit();
         session.close();
@@ -44,7 +46,7 @@ public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
         Transaction tx = session.beginTransaction();
 
         try{
-            Parent aParent= (Parent) session.get(Parent.class, pID);
+            Parent aParent = (Parent) session.get(Parent.class, pID);
             tx.commit();
             session.close();
             return (T) aParent;
@@ -57,7 +59,7 @@ public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
 
 
     @Override
-    public Boolean update(Integer pId, String pName, String fName, String lName, String pWord, String joinDate) {
+    public Boolean update(Integer pId, String pName, String fName, String lName, String pWord) {
         Session session = factory.openSession();
         Transaction tx = null;
         try {
@@ -66,8 +68,7 @@ public class ParentMySQLDao<T extends Parent> implements ParentDbService<T> {
             parent.setpName(pName)
                     .setfName(fName)
                     .setlName(lName)
-                    .setpWord(pWord)
-                    .setJoinDateString(joinDate);
+                    .setpWord(pWord);
             tx.commit();
         } catch (HibernateException ex) {
             if (tx != null) tx.rollback();

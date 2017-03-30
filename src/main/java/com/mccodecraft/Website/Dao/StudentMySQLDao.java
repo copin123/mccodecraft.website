@@ -9,39 +9,43 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by james on 3/14/17.
  */
-public class StudentMySQLDao <T extends Student> implements StudentDbService<T> {
+public class StudentMySQLDao <S extends Parent, T extends Student> implements StudentDbService<S,T> {
     private static SessionFactory factory = null;
     private Transaction tx = null;
     private Session session = null;
 
 
     @Override
-    public Integer create(T entity) {
+    public Integer create(S thing, T entity) {
         Integer sID = null;
         try {
             factory = new Configuration().addAnnotatedClass(Student.class).configure().buildSessionFactory();
             Session session = factory.openSession();
             tx = session.beginTransaction();
+            Student student = new Student()
+                    .setfName(entity.getfName())
+                    .setpName(entity.getpName())
+                    .setlName(entity.getlName())
+                    .setpWord(entity.getpWord())
+                    .setIsDeleted(false)
+                    .setJoinDate();
+
+//            thing.setStudents(new ArrayList<Student>());
+//            thing.getStudents().add(student);
+            session.save(thing);
+            sID  = student.getSId();
+            tx.commit();
+            session.close();
         } catch (HibernateException exception) {
             exception.printStackTrace();
             return null;
         }
-        Student student = new Student()
-                .setfName(entity.getfName())
-                .setlName(entity.getlName())
-                .setpWord(entity.getpWord())
-                .setpID(entity.getpID())
-                .setSId(entity.getSId())
-                .setIsDeleted(false)
-                .setJoinDate();
-        sID = (Integer) session.save(student);
-        tx.commit();
-        session.close();
         return sID;
     }
 
@@ -64,7 +68,7 @@ public class StudentMySQLDao <T extends Student> implements StudentDbService<T> 
     }
 
     @Override
-    public Boolean update(Integer pId, Integer sId, String psName, String fsName, String lsName, String psWord,
+    public Boolean update(Parent parent, Integer sId, String psName, String fsName, String lsName, String psWord,
                           Date sjoinDate) {
         Session session = factory.openSession();
         Transaction tx = null;

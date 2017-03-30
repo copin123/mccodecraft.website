@@ -1,11 +1,8 @@
 package com.mccodecraft.Website.DbObjects;
 
-import org.hibernate.annotations.DynamicUpdate;
-
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,18 +13,18 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "student")
-@DynamicUpdate
 public class Student implements Serializable{
+
+    public Student() {}
+
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "sID")
+    @GeneratedValue
+    @Column(name = "STUDENT_ID")
     private Integer sID;
 //    @ManyToOne
 //    @JoinColumn(name="pID", foreignKey = @ForeignKey(name = "student_parent_FK"))
 //    Hibernate book 263
-    @ManyToOne (targetEntity = Parent.class)
-    @JoinColumn(name = "pID", nullable = false)
-    private Integer pID;
     @Column(name = "studentName")
     private String psName;
     @Column(name = "studentFName")
@@ -44,13 +41,10 @@ public class Student implements Serializable{
     private Date dateDeleted;
 
 
-    DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
 
-    public Student() {}
-
-    public Integer getpID() {
-        return this.pID;
+    public Student(Integer sID) {
+        this.sID = sID;
     }
 
     public Integer getSId() {
@@ -73,9 +67,6 @@ public class Student implements Serializable{
         return psWord;
     }
 
-    public String getStrngJoinDate() {
-        return dateFormat.format(sjoinDate);
-    }
     public Boolean getIsDeleted() {
         return sisDeleted;
     }
@@ -89,11 +80,6 @@ public class Student implements Serializable{
     }
 
     // adding for hibernate
-
-    public Student setpID(Integer pID) {
-        this.pID = pID;
-        return this;
-    }
 
     public Student setSId(Integer sId) {
         this.sID = sId;
@@ -144,5 +130,7 @@ public class Student implements Serializable{
         this.dateDeleted = (isDeleted) ? new Date() : null;
         return this;
     }
+
+
 
 }

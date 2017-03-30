@@ -7,19 +7,26 @@ import com.mccodecraft.Website.Dao.ParentMySQLDao;
 import com.mccodecraft.Website.Dao.StudentMySQLDao;
 import com.mccodecraft.Website.DbObjects.Parent;
 import com.mccodecraft.Website.DbObjects.Student;
-import com.sun.xml.internal.ws.util.StringUtils;
+import com.mccodecraft.Website.hibernate.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import spark.Request;
 import spark.Response;
 import spark.template.freemarker.FreeMarkerRoute;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static spark.Spark.get;
 
 public class WebsiteLanding {
 
     public static ParentMySQLDao<Parent> parentDbService = new ParentMySQLDao<>();
-    public static StudentMySQLDao<Student> studentDbService = new StudentMySQLDao<>();
+    public static StudentMySQLDao<Parent, Student> studentDbService = new StudentMySQLDao<>();
 
     public static void main(String[] args) {
 
@@ -28,7 +35,7 @@ public class WebsiteLanding {
             @Override
             public Object handle(Request request, Response response) {
                 Integer id = Integer.parseInt(request.params(":id"));
-                Parent parent =  parentDbService.read(id);
+                Parent parent = parentDbService.read(id);
                 Map<String, Object> viewObjects = new HashMap<>();
 
                 viewObjects.put("templateName", "parentInfoForm.ftl");
@@ -43,31 +50,62 @@ public class WebsiteLanding {
             @Override
             public Object handle(Request request, Response response) {
                 Map<String, Object> viewObjects = new HashMap<>();
-                Parent parent = null;
 
                 // wiring into insert,
+                Parent parent = null;
+                Integer newID = 0;
+//                newID = studentDbService.create(parent, student);
 
-//                parent = new Parent()
-//                        .setfName("firstAfterUpdate")
-//                        .setlName("lastname")
-//                        .setpName("person?name")
-//                        .setpWord("password");
-//                Integer newID = parentDbService.create(parent);
 
-//                Let's try and create a student, with parentID = 7
-                Student student = new Student()
-                        .setfName("studentFirstName")
-                        .setlName("studentLastName")
-                        .setpID(7)
-                        .setpName("bossCraft")
-                        .setpWord("studentPass");
-                Integer newID = studentDbService.create(student);
+
+                SessionFactory sessionFactory = null;
+                Session session = null;
+                Transaction tx = null;
+
+                sessionFactory = HibernateUtil.getSessionFactory();
+                session = sessionFactory.openSession();
+                System.out.println("Session created");
+
+                try {
+                    tx = session.beginTransaction();
+
+                    List<Student> studentList = new ArrayList<>();
+
+                    Student student = new Student()
+                            .setfName("studentFirstName")
+                            .setlName("studentLastName")
+                            .setpName("bossCraft")
+                            .setpWord("studentPass");
+                    studentList.add(student);
+
+
+                    parent = new Parent()
+                            .setfName("firstAfterUpdate")
+                            .setlName("lastname")
+                            .setpName("person?name")
+                            .setpWord("password")
+                            .setStudents(studentList);
+                    session.save(parent);
+
+                    tx.commit();
+
+                } catch (Exception e) {
+                    System.out.println("Exception occured. " + e.getMessage());
+                    e.printStackTrace();
+                    tx.rollback();
+                } finally {
+                    if (!sessionFactory.isClosed()) {
+                        System.out.println("Closing SessionFactory");
+                        sessionFactory.close();
+                    }
+                }
+
                 if (null == newID) {
                     viewObjects.put("hasNoParents", "Welcome, please click \"Write Parent\" to begin.");
                 } else {
 //                    Deque<Parent> showParents = new ArrayDeque<>();
 
-                    viewObjects.put("hasParents","Awesome, you created parent with parent id of :" + newID);
+                    viewObjects.put("hasParents", "Awesome, you created parent with parent id of :" + newID);
                 }
                 viewObjects.put("templateName", "index.ftl");
                 return modelAndView(viewObjects, "layout.ftl");

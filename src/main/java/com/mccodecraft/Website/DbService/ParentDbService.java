@@ -8,6 +8,6 @@ import java.util.Date;
 public interface ParentDbService<T> {
     Integer create(T entity);
     T read(Integer pID);
-    Boolean update( Integer pId, String pName, String fName, String lName, String pWord, String joinDate );
+    Boolean update( Integer pId, String pName, String fName, String lName, String pWord );
     Boolean delete(  Integer pId  );
 }

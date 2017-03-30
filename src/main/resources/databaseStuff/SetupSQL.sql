@@ -25,7 +25,7 @@ CREATE TABLE `student` (
   `studentDeleteDate` date DEFAULT NULL,
   `pID` int(11) NOT NULL,
   `sID` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`pID`,`sID`),
+  PRIMARY KEY (`sID`),
   UNIQUE KEY `student_sID_IDX` (`sID`),
   CONSTRAINT `student_parent_FK` FOREIGN KEY (`pID`) REFERENCES `parent` (`pID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1

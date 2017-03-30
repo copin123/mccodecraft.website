@@ -1,17 +1,10 @@
 package com.mccodecraft.Website.DbObjects;
-
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.DynamicUpdate;
-
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by james on 2/20/17.
@@ -19,10 +12,17 @@ import java.util.List;
 @Entity
 @Table(name = "parent")
 public class Parent implements Serializable{
+
+    public Parent(){}
+
+    public Parent(Integer parentID, List<Student> studentList) {
+        this.pID = parentID;
+        this.studentList = studentList;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @OneToMany(mappedBy = "parent")
-    @Column(name = "pID")
+    @GeneratedValue
+    @Column(name = "PARENT_ID")
     private Integer pID;
     @Column(name = "pName")
     private String pName;
@@ -39,7 +39,17 @@ public class Parent implements Serializable{
     @Column(name = "deleteDate")
     private Date dateDeleted;
 
-    public Parent() {}
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinTable(name = "PARENT_STUDENTS", joinColumns = {@JoinColumn(name="PARENT_ID")}, inverseJoinColumns =  {@JoinColumn(name="STUDENT_ID")})
+    private List<Student> studentList = new ArrayList<>();
+
+    public List<Student> getStudentList() {
+        return this.studentList;
+    }
+    public Parent setStudents(List<Student> students) {
+        this.studentList= students;
+        return this;
+    }
 
     public Integer getpID() {
         return pID;
@@ -61,10 +71,10 @@ public class Parent implements Serializable{
         return pWord;
     }
 
-    public String getStringJoinDate() {
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        return dateFormat.format(joinDate);
-    }
+//    public String getStringJoinDate() {
+//        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+//        return dateFormat.format(joinDate);
+//    }
 
     public Date getDateJoinDate() {
         return joinDate;
@@ -108,19 +118,19 @@ public class Parent implements Serializable{
         return this;
     }
 
-    public Parent setJoinDateString(String joinDateString) {
-        try {
-            this.joinDate = new SimpleDateFormat("MM/dd/yyyy").parse(joinDateString);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-        return this;
-    }
-
-    public Parent setJoinDate() {
-        this.joinDate = new Date();
-        return this;
-    }
+//    public Parent setJoinDateString(String joinDateString) {
+//        try {
+//            this.joinDate = new SimpleDateFormat("MM/dd/yy").parse(joinDateString);
+//        } catch (ParseException ex) {
+//            ex.printStackTrace();
+//        }
+//        return this;
+//    }
+//
+//    public Parent setJoinDate() {
+//        this.joinDate = new Date();
+//        return this;
+//    }
 
     public Parent setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
