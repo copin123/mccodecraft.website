@@ -16,7 +16,9 @@ public class HibernateUtil {
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             // loads configuration and mappings
-            Configuration configuration = new Configuration().configure().addAnnotatedClass(Parent.class).addAnnotatedClass(Student.class);
+            Configuration configuration = new Configuration().configure()
+                    .addAnnotatedClass(Parent.class)
+                    .addAnnotatedClass(Student.class);
             ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();
 
